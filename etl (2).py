@@ -3,7 +3,7 @@ import glob
 import psycopg2
 import pandas as pd
 from sql_queries import *
-from create_tables import *
+from create_tables  import *
 
 conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
 cur = conn.cursor()
@@ -72,7 +72,8 @@ def process_log_file(cur, filepath):
         cur.execute(time_table_insert, list(row))
 
     # load user table
-    user_df = df["userId", "firstName", "lastName", "gender", "level"]
+    columns = ["userId", "firstName", "lastName", "gender", "level"]
+    user_df = df[columns]
     
     # insert user records
     for i, row in user_df.iterrows():
@@ -91,7 +92,7 @@ def process_log_file(cur, filepath):
             songid, artistid = None, None
 
         # insert songplay record
-    songplay_data = (pd.to_datetime(df['ts'], unit = 'ms'), row.userId, row.level, songid, artistid, row.sessionid, row.location, row.useragent)
+    songplay_data = (pd.to_datetime(df['ts'], unit = 'ms'), row.userId, row.level, songid, artistid, row.sessionId, row.location, row.userAgent)
     cur.execute(songplay_table_insert, songplay_data)
 
 def process_data(cur, conn, filepath, func):
