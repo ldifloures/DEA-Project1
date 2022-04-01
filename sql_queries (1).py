@@ -8,19 +8,19 @@ time_table_drop = "DROP table IF EXISTS time"
 
 # CREATE TABLES
 
-songplay_table_create = ("""CREATE TABLE IF NOT EXISTS songplays (songplay_id serial PRIMARY KEY, start_time timestamp, userid int, level varchar, song_id varchar, artist_id varchar, session_id int, location varchar, user_agent varchar)
+songplay_table_create = ("""CREATE TABLE IF NOT EXISTS songplays (songplay_id serial PRIMARY KEY, start_time timestamp, userid int, level varchar, song_id varchar, artist_id varchar, sessionId int, location varchar, userAgent varchar);
 """)
 
-user_table_create = ("""CREATE TABLE IF NOT EXISTS users (userId int PRIMARY KEY, firstname varchar, lastname varchar, gender varchar, level varchar)
+user_table_create = ("""CREATE TABLE IF NOT EXISTS users (userId int PRIMARY KEY, firstname varchar, lastname varchar, gender varchar, level varchar);
 """)
 
-song_table_create = ("""CREATE TABLE IF NOT EXISTS songs (song_id varchar PRIMARY KEY, title varchar, artist_id varchar, year int, duration float)
+song_table_create = ("""CREATE TABLE IF NOT EXISTS songs (song_id varchar PRIMARY KEY, title varchar, artist_id varchar, year int, duration float);
 """)
 
-artist_table_create = ("""CREATE TABLE IF NOT EXISTS artists (artist_id varchar PRIMARY KEY, artist_name varchar, artist_location varchar, artist_longitude varchar, artist_latitude varchar)
+artist_table_create = ("""CREATE TABLE IF NOT EXISTS artists (artist_id varchar PRIMARY KEY, artist_name varchar, artist_location varchar, artist_longitude varchar, artist_latitude varchar);
 """)
 
-time_table_create = ("""CREATE TABLE IF NOT EXISTS time (start_time timestamp PRIMARY KEY, hour int, day int, week int, month int, year int, weekday int)
+time_table_create = ("""CREATE TABLE IF NOT EXISTS time (start_time timestamp PRIMARY KEY, hour int, day int, week int, month int, year int, weekday int);
 """)
 
 # INSERT RECORDS
@@ -53,7 +53,11 @@ time_table_insert = ("""INSERT INTO time (start_time, hour, day, week, month, ye
 
 # FIND SONGS
 
-song_select = ("""select songs.song_id, songs.artist_id from songs JOIN artists on songs.title = %s AND artists.artist_name = &s AND songs.duration = %s
+song_select = ("""SELECT songs.song_id, songs.artist_id 
+                   FROM songs 
+                   JOIN artists 
+                       ON songs.artist_id=artists.artist_id
+                   WHERE songs.title=%s AND artists.artist_name=%s AND songs.duration=%s;
 """)
 
 
